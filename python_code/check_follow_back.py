@@ -8,8 +8,10 @@ def get_usernames(json_file_name, relationship):
     username_list = []
     with open(json_file_name) as f:
         json_data = json.load(f)
-        json_data = json_data[relationship]
+        if relationship == "relationships_following":
+            json_data = json_data[relationship]
         for follower in json_data:
+            # print(follower['string_list_data'])
             username = follower['string_list_data'][0]['value']
             username_list.append(username)
         return username_list

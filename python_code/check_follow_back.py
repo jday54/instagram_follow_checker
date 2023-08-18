@@ -1,6 +1,8 @@
 import json
 import easygui
 import os
+import tkinter as tk
+from tkinter import filedialog
 
 # read in json file containing followers/followed accounts inforrmation;
 # return list of usernames of followers/followed accounts
@@ -35,12 +37,12 @@ def write_to_html(difference, html_file_name):
 if __name__ == '__main__':
     # Ask user to select a file using GUI file explorer
     # get follower file
-    output = easygui.msgbox("Select the 'followers.json' file", "NOTICE", "OK")
-    followers_filepath = easygui.fileopenbox("Select the 'followers.json' file")
-    # get following file
-    output = easygui.msgbox("Select the 'following.json' file", "NOTICE", "OK")
-    following_filepath = easygui.fileopenbox("Select the 'following.json' file")
-
+    output = easygui.msgbox("Select the 'followers.json' file and 'following.json' file", "NOTICE", "OK")
+    root = tk.Tk()
+    root.withdraw()
+    followers_filepath = filedialog.askopenfilename(title="Select the 'followers.json' file")
+    following_filepath = filedialog.askopenfilename(title="Select the 'following.json' file")
+ 
     # Get list of followers and following usernames
     followers_list = get_usernames(followers_filepath, "relationships_followers")
     following_list = get_usernames(following_filepath, "relationships_following")
@@ -55,4 +57,6 @@ if __name__ == '__main__':
     folderpath = easygui.diropenbox(msg="Select the folder where you want to save the output Web HTML file:", title="Save as", default=html_file_name)
     filepath = os.path.join(folderpath, html_file_name)
     write_to_html(difference, filepath)
+    
+    root.destroy()
 
